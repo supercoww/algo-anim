@@ -1,4 +1,11 @@
 <div id="cy"></div>
 
-<button routerLink="input" class="button">Input</button>
-<button (click)="startAnimation()" class="button">Start Animation</button>
+<div class="field is-grouped is-grouped-centered">
+	<p class="control">
+		<button routerLink="input" class="button is-black">Change Input</button>
+	</p>
+
+	<p class="control">
+		<button (click)="startAnimation()" class="button is-primary">Play Animation</button>
+	</p>
+</div>

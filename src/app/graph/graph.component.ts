@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as cytoscape from 'cytoscape';
 
 import { DataService } from '../data.service';
-import { bfs, dfs } from './algorithms';
+import { bfs, dfs, kruskal } from './algorithms';
 
 @Component({
 	selector: 'app-graph',
@@ -11,20 +11,16 @@ import { bfs, dfs } from './algorithms';
 })
 export class GraphComponent implements OnInit, OnDestroy {
 	graph;
-	animationType: string;
-	adjacencyList;
 	cy = null;
 
 	constructor(private dataService: DataService) {}
 
 	ngOnInit() {
-		this.graph = this.dataService.getElements();
-		this.animationType = this.dataService.getAnimationType();
-		this.adjacencyList = this.dataService.getAdjacencyList();
+		this.graph = this.dataService.getData();
 
 		this.cy = cytoscape({
 			container: document.getElementById('cy'), // container to render in
-			elements: this.graph,
+			elements: this.graph.elements,
 			style: (cytoscape as any)
 				.stylesheet()
 				.selector('node')
@@ -60,17 +56,19 @@ export class GraphComponent implements OnInit, OnDestroy {
 		});
 
 		this.startAnimation();
+
+		kruskal(this.graph.vertexCount, this.graph.edges);
 	}
 
 	startAnimation() {
 		this.cy.elements().removeClass('highlighted');
 		let path;
 
-		if (this.animationType === 'bfs') {
-			path = bfs(this.adjacencyList, 1);
-		} else if (this.animationType === 'dfs') {
-			path = dfs(this.adjacencyList, 1);
-		} else if (this.animationType === 'mst') {
+		if (this.graph.animationType === 'bfs') {
+			path = bfs(this.graph.adjacencyList, this.graph.startVertex);
+		} else if (this.graph.animationType === 'dfs') {
+			path = dfs(this.graph.adjacencyList, this.graph.startVertex);
+		} else if (this.graph.animationType === 'mst') {
 			path = this.cy.elements().kruskal();
 		}
 

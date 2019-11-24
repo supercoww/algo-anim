@@ -50,6 +50,8 @@ function dfsUtility(graph, startVertex, previousVertex) {
 	});
 }
 
-// export const kruskal = (vertexCount, edges): string[] => {
-// 	return [];
-// };
+export const kruskal = (vertexCount, edges): string[] => {
+	edges.sort((a, b) => b.weight - a.weight);
+
+	return [];
+};

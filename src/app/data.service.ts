@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 const defaultGraph = {
 	edgeList: [
 		{ source: 1, target: 2, weight: 10 },
-		{ source: 1, target: 3, weight: 10 },
+		{ source: 1, target: 3, weight: 20 },
 		{ source: 2, target: 4, weight: 10 },
 		{ source: 2, target: 5, weight: 10 },
 		{ source: 3, target: 6, weight: 10 },
@@ -22,6 +22,7 @@ export class DataService {
 	private edges = [];
 	private adjacencyList = {};
 	private startVertex = 1;
+	private vertexCount;
 	private animationType = 'bfs';
 
 	constructor() {
@@ -35,6 +36,7 @@ export class DataService {
 		this.elements = [];
 		this.edges = edgeList;
 		this.adjacencyList = {};
+		this.vertexCount = vertexCount;
 
 		for (let i = 1; i <= vertexCount; i++) {
 			this.elements.push({ data: { id: `${i}` } });
@@ -59,11 +61,30 @@ export class DataService {
 		return this.elements;
 	}
 
+	getData() {
+		return {
+			elements: this.elements,
+			adjacencyList: this.adjacencyList,
+			vertexCount: this.vertexCount,
+			animationType: this.animationType,
+			edges: this.edges,
+			startVertex: this.startVertex
+		};
+	}
+
 	getAdjacencyList() {
 		return this.adjacencyList;
 	}
 
 	getAnimationType(): string {
 		return this.animationType;
+	}
+
+	getVertexCount() {
+		return this.vertexCount;
+	}
+
+	getEdges() {
+		return this.edges;
 	}
 }
