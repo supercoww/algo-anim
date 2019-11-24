@@ -1,0 +1,31 @@
+<form class="container" (ngSubmit)="onSubmit()" [formGroup]="graphForm">
+	<div class="field">
+		<div class="select">
+			<select formControlName="animationType">
+				<option value="bfs">Breadth First Search</option>
+				<option value="dfs">Depth First Search</option>
+				<option value="mst">Minimum Spanning Tree</option>
+			</select>
+		</div>
+	</div>
+
+	<div formArrayName="list">
+		<div *ngFor="let inp of listRows.controls; let i = index" [formGroupName]="i">
+			<div class="field column">
+				<div class="control">
+					<input class="input id" placeholder="ID" formControlName="id" type="text" />
+				</div>
+				<div style="margin: 0px 10px;">:</div>
+				<div class="control">
+					<input class="input" placeholder="Neighbors" formControlName="neighbors" type="text" />
+					<p class="help">Enter neighbor IDs separated by space</p>
+				</div>
+
+				<button type="button" class="button is-danger" (click)="deleteRow(i)">Delete Vertex</button>
+			</div>
+		</div>
+	</div>
+
+	<button type="button" class="button" (click)="addRow()">Add Vertex</button>
+	<button class="button is-primary" type="submit">Show Animation</button>
+</form>
