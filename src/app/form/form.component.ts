@@ -17,6 +17,7 @@ export class FormComponent implements OnInit {
 	ngOnInit() {
 		this.graphForm = this.fb.group({
 			animationType: 'bfs',
+			startVertex: '',
 			vertexCount: '',
 			edgeList: this.fb.array([])
 		});

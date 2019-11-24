@@ -1,54 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as cytoscape from 'cytoscape';
-import { DataService } from '../data.service';
 
-const defaultGraph = [
-	// list of graph elements to start with
-	{
-		// node 1
-		data: { id: '1' }
-	},
-	{
-		// node b
-		data: { id: '2' }
-	},
-	{
-		// node b
-		data: { id: '3' }
-	},
-	{
-		// node b
-		data: { id: '4' }
-	},
-	{
-		// node b
-		data: { id: '5' }
-	},
-	{
-		// node b
-		data: { id: '6' }
-	},
-	{
-		// edge ab
-		data: { id: '12', source: '1', target: '2' }
-	},
-	{
-		// edge ab
-		data: { id: '24', source: '2', target: '4' }
-	},
-	{
-		// edge ab
-		data: { id: '25', source: '2', target: '5' }
-	},
-	{
-		// edge ab
-		data: { id: '13', source: '1', target: '3' }
-	},
-	{
-		// edge ab
-		data: { id: '36', source: '3', target: '6' }
-	}
-];
+import { DataService } from '../data.service';
+import { bfs, dfs } from './algorithms';
 
 @Component({
 	selector: 'app-graph',
@@ -56,19 +10,17 @@ const defaultGraph = [
 	styleUrls: ['./graph.component.scss']
 })
 export class GraphComponent implements OnInit, OnDestroy {
-	graph = defaultGraph;
+	graph;
 	animationType: string;
+	adjacencyList;
 	cy = null;
 
 	constructor(private dataService: DataService) {}
 
 	ngOnInit() {
-		const newGraph = this.dataService.getElements();
+		this.graph = this.dataService.getElements();
 		this.animationType = this.dataService.getAnimationType();
-
-		if (newGraph.length > 0) {
-			this.graph = newGraph;
-		}
+		this.adjacencyList = this.dataService.getAdjacencyList();
 
 		this.cy = cytoscape({
 			container: document.getElementById('cy'), // container to render in
@@ -87,6 +39,10 @@ export class GraphComponent implements OnInit, OnDestroy {
 					'line-color': '#ddd',
 					'target-arrow-color': '#ddd'
 				})
+				.selector('edge[weight]')
+				.style({
+					content: 'data(weight)'
+				})
 				.selector('.highlighted')
 				.style({
 					'background-color': '#61bffc',
@@ -98,6 +54,7 @@ export class GraphComponent implements OnInit, OnDestroy {
 
 			layout: {
 				name: 'breadthfirst',
+				roots: '#1',
 				directed: false
 			}
 		});
@@ -107,18 +64,20 @@ export class GraphComponent implements OnInit, OnDestroy {
 
 	startAnimation() {
 		this.cy.elements().removeClass('highlighted');
+		let path;
 
-		let path = [];
 		if (this.animationType === 'bfs') {
-			path = this.cy.elements().bfs('#1', () => {}, true).path;
+			path = bfs(this.adjacencyList, 1);
 		} else if (this.animationType === 'dfs') {
-			path = this.cy.elements().dfs('#1', () => {}, true).path;
+			path = dfs(this.adjacencyList, 1);
+		} else if (this.animationType === 'mst') {
+			path = this.cy.elements().kruskal();
 		}
 
 		let i = 0;
 		const highlightNextEle = () => {
 			if (i < path.length) {
-				path[i].addClass('highlighted');
+				this.cy.getElementById(path[i]).addClass('highlighted');
 
 				i++;
 				setTimeout(highlightNextEle, 1000);
