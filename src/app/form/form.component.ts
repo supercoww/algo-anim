@@ -17,31 +17,27 @@ export class FormComponent implements OnInit {
 	ngOnInit() {
 		this.graphForm = this.fb.group({
 			animationType: 'bfs',
-			list: this.fb.array([this.newRow()])
+			vertexCount: '',
+			edgeList: this.fb.array([])
 		});
+		this.addRow();
 	}
 
-	public get listRows(): FormArray {
-		return this.graphForm.get('list') as FormArray;
-	}
-
-	newRow() {
-		return this.fb.group({
-			id: '',
-			neighbors: ''
-		});
+	public get edgeForms(): FormArray {
+		return this.graphForm.get('edgeList') as FormArray;
 	}
 
 	addRow() {
-		this.listRows.push(this.newRow());
+		const edge = this.fb.group({
+			source: '',
+			target: '',
+			weight: ''
+		});
+		this.edgeForms.push(edge);
 	}
 
 	deleteRow(index: number) {
-		this.listRows.removeAt(index);
-	}
-
-	newItem(): FormControl {
-		return this.fb.control('');
+		this.edgeForms.removeAt(index);
 	}
 
 	onSubmit() {

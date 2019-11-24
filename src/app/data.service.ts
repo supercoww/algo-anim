@@ -10,26 +10,26 @@ export class DataService {
 
 	constructor() {}
 
-	setGraph({ list: adjacencyList, animationType }) {
-		this.adjacencyList = adjacencyList;
+	setGraph({ edgeList, vertexCount, animationType }) {
 		this.animationType = animationType;
 
 		this.elements = [];
-		adjacencyList.forEach(vertex => {
-			this.elements.push({ data: { id: vertex.id } });
 
-			const neighbors = vertex.neighbors.split(' ');
+		for (let i = 1; i <= vertexCount; i++) {
+			this.elements.push({ data: { id: `${i}` } });
+		}
 
-			neighbors.forEach(neighbor => {
-				this.elements.push({
-					data: {
-						id: `${vertex.id}${neighbor}`,
-						source: vertex.id,
-						target: neighbor
-					}
-				});
+		edgeList.forEach(edge => {
+			this.elements.push({
+				data: {
+					id: `${edge.source}-${edge.target}`,
+					source: `${edge.source}`,
+					target: `${edge.target}`
+				}
 			});
 		});
+
+		console.log(this.elements);
 	}
 
 	getElements() {

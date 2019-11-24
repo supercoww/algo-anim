@@ -4,7 +4,14 @@
 .field.column {
 	display: flex;
 }
-.button,
-.select {
-	margin-left: 12px;
+
+.field-label {
+	text-align: left;
+	margin-bottom: 0.5em;
+}
+
+form.container {
+	max-width: 800px;
+	margin-top: 12px;
+	padding: 0px 12px;
 }

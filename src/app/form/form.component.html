@@ -1,6 +1,7 @@
 <form class="container" (ngSubmit)="onSubmit()" [formGroup]="graphForm">
 	<div class="field">
-		<div class="select">
+		<label for="anim" class="label">Animation Type</label>
+		<div id="anim" class="select">
 			<select formControlName="animationType">
 				<option value="bfs">Breadth First Search</option>
 				<option value="dfs">Depth First Search</option>
@@ -9,23 +10,66 @@
 		</div>
 	</div>
 
-	<div formArrayName="list">
-		<div *ngFor="let inp of listRows.controls; let i = index" [formGroupName]="i">
-			<div class="field column">
-				<div class="control">
-					<input class="input id" placeholder="ID" formControlName="id" type="text" />
+	<div class="field">
+		<label for="vertices" class="label">Number of Vertices</label>
+		<div class="control">
+			<input
+				id="vertices"
+				min="1"
+				type="number"
+				placeholder="5"
+				class="input"
+				formControlName="vertexCount"
+			/>
+		</div>
+	</div>
+
+	<div class="edges field" formArrayName="edgeList">
+		<div class="field-label is-normal">
+			<label class="label">Edges</label>
+		</div>
+
+		<div class="field" *ngFor="let edge of edgeForms.controls; let i = index" [formGroupName]="i">
+			<div class="field-body">
+				<div class="field">
+					<div class="control">
+						<input
+							class="input"
+							min="1"
+							type="number"
+							placeholder="Source"
+							formControlName="source"
+						/>
+					</div>
 				</div>
-				<div style="margin: 0px 10px;">:</div>
-				<div class="control">
-					<input class="input" placeholder="Neighbors" formControlName="neighbors" type="text" />
-					<p class="help">Enter neighbor IDs separated by space</p>
+				<div class="field">
+					<div class="control">
+						<input
+							class="input"
+							min="1"
+							type="number"
+							placeholder="Target"
+							formControlName="target"
+						/>
+					</div>
+				</div>
+				<div class="field">
+					<div class="control">
+						<input class="input" type="number" placeholder="Weight" formControlName="weight" />
+					</div>
 				</div>
 
-				<button type="button" class="button is-danger" (click)="deleteRow(i)">Delete Vertex</button>
+				<button (click)="deleteRow(i)" class="button is-danger">Delete Edge</button>
 			</div>
 		</div>
 	</div>
 
-	<button type="button" class="button" (click)="addRow()">Add Vertex</button>
-	<button class="button is-primary" type="submit">Show Animation</button>
+	<div class="field is-grouped">
+		<div class="control">
+			<button type="button" class="button" (click)="addRow()">Add Edge</button>
+		</div>
+		<div class="control">
+			<button class="button is-primary" type="submit">Show Animation</button>
+		</div>
+	</div>
 </form>
