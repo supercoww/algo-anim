@@ -1,5 +1,4 @@
 {
-    "cSpell.words": [
-        "cytoscape"
-    ]
+	"cSpell.words": ["cytoscape"],
+	"liveServer.settings.root": "/dist/algo-anim"
 }
