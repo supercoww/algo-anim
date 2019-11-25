@@ -6,6 +6,7 @@ const defaultGraph = {
 		{ source: 1, target: 3, weight: 20 },
 		{ source: 2, target: 4, weight: 10 },
 		{ source: 2, target: 5, weight: 10 },
+		{ source: 2, target: 3, weight: 5 },
 		{ source: 3, target: 6, weight: 10 },
 		{ source: 3, target: 7, weight: 10 }
 	],

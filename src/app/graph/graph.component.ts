@@ -69,7 +69,7 @@ export class GraphComponent implements OnInit, OnDestroy {
 		} else if (this.graph.animationType === 'dfs') {
 			path = dfs(this.graph.adjacencyList, this.graph.startVertex);
 		} else if (this.graph.animationType === 'mst') {
-			path = this.cy.elements().kruskal();
+			path = kruskal(this.graph.vertexCount, this.graph.edges);
 		}
 
 		let i = 0;
