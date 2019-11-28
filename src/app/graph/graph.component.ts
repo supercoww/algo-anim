@@ -12,7 +12,7 @@ import { bfs, dfs, kruskal } from './algorithms';
 export class GraphComponent implements OnInit, OnDestroy {
 	graph;
 	cy = null;
-	timeout: NodeJS.Timer;
+	timeout;
 
 	constructor(private dataService: DataService) {}
 
