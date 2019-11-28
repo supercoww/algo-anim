@@ -89,7 +89,5 @@ export const kruskal = (vertexCount, edges): string[] => {
 		}
 	}
 
-	console.log(sequence);
-
 	return sequence;
 };

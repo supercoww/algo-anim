@@ -47,6 +47,13 @@
 			<label class="label">Edges</label>
 		</div>
 
+		<div class="field-body">
+			<div class="field"><label class="label">Source</label></div>
+			<div class="field"><label class="label">Target</label></div>
+			<div class="field"><label class="label">Weight</label></div>
+			<div class="button" style="visibility: hidden;">Delete Edge</div>
+		</div>
+
 		<div class="field" *ngFor="let edge of edgeForms.controls; let i = index" [formGroupName]="i">
 			<div class="field-body">
 				<div class="field">

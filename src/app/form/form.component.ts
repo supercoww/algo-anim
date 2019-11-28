@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 
@@ -15,13 +15,17 @@ export class FormComponent implements OnInit {
 	constructor(private fb: FormBuilder, private dataService: DataService, private router: Router) {}
 
 	ngOnInit() {
+		const graph = this.dataService.getData();
 		this.graphForm = this.fb.group({
-			animationType: 'bfs',
-			startVertex: '',
-			vertexCount: '',
-			edgeList: this.fb.array([])
+			animationType: graph.animationType,
+			startVertex: graph.startVertex,
+			vertexCount: graph.vertexCount,
+			edgeList: this.fb.array(
+				graph.edges.map(edge => {
+					return this.fb.group(edge);
+				})
+			)
 		});
-		this.addRow();
 	}
 
 	public get edgeForms(): FormArray {
