@@ -4,8 +4,8 @@ import { GraphComponent } from './graph/graph.component';
 import { FormComponent } from './form/form.component';
 
 const routes: Routes = [
-	{ path: '', component: GraphComponent },
-	{ path: 'input', component: FormComponent }
+	{ path: '', component: GraphComponent, data: { animation: 'left' } },
+	{ path: 'input', component: FormComponent, data: { animation: 'right' } }
 ];
 
 @NgModule({
