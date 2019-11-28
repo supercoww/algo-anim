@@ -12,6 +12,7 @@ import { bfs, dfs, kruskal } from './algorithms';
 export class GraphComponent implements OnInit, OnDestroy {
 	graph;
 	cy = null;
+	timeout: NodeJS.Timer;
 
 	constructor(private dataService: DataService) {}
 
@@ -45,7 +46,7 @@ export class GraphComponent implements OnInit, OnDestroy {
 					'line-color': '#61bffc',
 					'target-arrow-color': '#61bffc',
 					'transition-property': 'background-color, line-color, target-arrow-color',
-					'transition-duration': '0.5s'
+					'transition-duration': '0.3s'
 				}),
 
 			layout: {
@@ -62,6 +63,7 @@ export class GraphComponent implements OnInit, OnDestroy {
 
 	startAnimation() {
 		this.cy.elements().removeClass('highlighted');
+		clearTimeout(this.timeout);
 		let path;
 
 		if (this.graph.animationType === 'bfs') {
@@ -78,7 +80,7 @@ export class GraphComponent implements OnInit, OnDestroy {
 				this.cy.getElementById(path[i]).addClass('highlighted');
 
 				i++;
-				setTimeout(highlightNextEle, 1000);
+				this.timeout = setTimeout(highlightNextEle, 1000);
 			}
 		};
 
@@ -88,5 +90,6 @@ export class GraphComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.cy.destroy();
+		clearTimeout(this.timeout);
 	}
 }
